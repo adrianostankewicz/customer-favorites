@@ -1,6 +1,7 @@
 package customer
 
 import (
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -12,7 +13,7 @@ type Customer struct {
 	Email     string
 	CreatedAt time.Time
 	UpdateAt  time.Time
-	DeletedAt time.Time
+	DeletedAt *time.Time
 }
 
 func NewCustomer(name string, email string) (*Customer, error) {
@@ -22,4 +23,16 @@ func NewCustomer(name string, email string) (*Customer, error) {
 		Email: email,
 	}
 	return customer, nil
+}
+
+func (c *Customer) Validate() error {
+	if c.Name == "" {
+		return errors.New("customer name is required")
+	}
+
+	if c.Email == "" {
+		return errors.New("customer email is required")
+	}
+
+	return nil
 }
