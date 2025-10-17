@@ -23,9 +23,13 @@ func TestCustomer_Validate(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Equal(t, "customer name is required", err.Error())
 
+	now := time.Now()
 	customer.Name = "Fulano da Silva"
 	customer.Email = ""
-	customer.UpdateAt = time.Now()
+	customer.CreatedAt = now
+	customer.UpdatedAt = now
+	customer.DeletedAt = nil
+
 	err = customer.Validate()
 	assert.NotNil(t, err)
 	assert.Equal(t, "customer email is required", err.Error())

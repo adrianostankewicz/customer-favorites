@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trg_customer_updated_at;

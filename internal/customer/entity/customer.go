@@ -12,7 +12,7 @@ type Customer struct {
 	Name      string
 	Email     string
 	CreatedAt time.Time
-	UpdateAt  time.Time
+	UpdatedAt time.Time
 	DeletedAt *time.Time
 }
 

@@ -7,14 +7,15 @@ import (
 )
 
 func main() {
-	host := os.Getenv("DB_HOST")
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
-	dbname := os.Getenv("DB_NAME")
+	host := os.Getenv("POSTGRES_HOST")
+	user := os.Getenv("POSTGRES_USER")
+	port := os.Getenv("POSTGRES_PORT")
+	password := os.Getenv("POSTGRES_PASSWORD")
+	dbname := os.Getenv("POSTGRES_DB")
 
 	dsn := fmt.Sprintf(
-		"postgres://%s:%s@%s:5433/%s?sslmode=false",
-		user, password, host, dbname,
+		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
+		user, password, host, port, dbname,
 	)
 
 	db, err := sql.Open("postgres", dsn)
