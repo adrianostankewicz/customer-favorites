@@ -30,6 +30,20 @@ func (r *CustomerRepositoryPostgres) Create(customer *customer.Customer) error {
 	return nil
 }
 
+func (r *CustomerRepositoryPostgres) FindById(id string) (*customer.Customer, error) {
+	customer := &customer.Customer{}
+	stmt, err := r.DB.Prepare("SELECT id, name, email, created_at, updated_at, deleted_at FROM customer WHERE id = $1")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+	row := stmt.QueryRow(id)
+	if err := row.Scan(&customer.ID, &customer.Name, &customer.Email, &customer.CreatedAt, &customer.UpdatedAt, &customer.DeletedAt); err != nil {
+		return nil, err
+	}
+	return customer, nil
+}
+
 func (r *CustomerRepositoryPostgres) FindByEmail(email string) (*customer.Customer, error) {
 	customer := &customer.Customer{}
 	stmt, err := r.DB.Prepare("SELECT id, name, email, created_at, updated_at, deleted_at FROM customer WHERE email = $1")

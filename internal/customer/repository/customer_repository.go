@@ -5,6 +5,7 @@ import customer "github.com/adrianostankewicz/customer-favorites/internal/custom
 type CustomerRepository interface {
 	Create(customer *customer.Customer) error
 	Update(customer *customer.Customer) error
+	FindById(id string) (*customer.Customer, error)
 	FindByEmail(email string) (*customer.Customer, error)
 	Delete(id string) error
 }

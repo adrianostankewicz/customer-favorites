@@ -63,7 +63,21 @@ func (suite *CustomerRepositoryTestSuite) TestCreate() {
 	suite.Equal(1, count)
 }
 
-func (suite *CustomerRepositoryTestSuite) TestGetByEmail() {
+func (suite *CustomerRepositoryTestSuite) TestFindById() {
+	customer, _ := customer.NewCustomer("Fulano da Silva", "fulano@customer_favoritess.com")
+	suite.repository.Create(customer)
+
+	aCustomer, err := suite.repository.FindById(customer.ID)
+	suite.Nil(err)
+	suite.Equal(customer.ID, aCustomer.ID)
+	suite.Equal(customer.Name, aCustomer.Name)
+	suite.Equal(customer.Email, aCustomer.Email)
+	suite.NotNil(aCustomer.CreatedAt)
+	suite.NotNil(aCustomer.UpdatedAt)
+	suite.Nil(aCustomer.DeletedAt)
+}
+
+func (suite *CustomerRepositoryTestSuite) TestFindByEmail() {
 	customer, _ := customer.NewCustomer("Fulano da Silva", "fulano@customer_favoritess.com")
 	suite.repository.Create(customer)
 
