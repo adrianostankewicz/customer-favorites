@@ -1,0 +1,2 @@
+ALTER TABLE customer
+    DROP CONSTRAINT IF EXISTS pk_customer;
