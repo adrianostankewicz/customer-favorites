@@ -1,4 +1,4 @@
-package database
+package repository
 
 import (
 	"database/sql"
@@ -20,9 +20,9 @@ func (suite *CustomerRepositoryTestSuite) SetupSuite() {
 	dbConfig := database.Config{
 		Host:     getEnv("POSTGRES_HOST", "localhost"),
 		Port:     5433,
-		User:     getEnv("POSTGRES_USER", "customerf"),
-		Password: getEnv("POSTGRES_PASSWORD", "$12345"),
-		DBName:   getEnv("POSTGRES_DB", "customer_favorites"),
+		User:     getEnv("POSTGRES_USER", "postgres"),
+		Password: getEnv("POSTGRES_PASSWORD", "postgres"),
+		DBName:   getEnv("POSTGRES_DB", "postgres"),
 		SSLMode:  getEnv("POSTGRES_SSL_MODE", "disable"),
 	}
 

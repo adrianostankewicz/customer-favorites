@@ -1,24 +1,26 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
+
+	service "github.com/adrianostankewicz/customer-favorites/internal/customer/service"
+	"github.com/adrianostankewicz/customer-favorites/internal/infra/database"
+	repository "github.com/adrianostankewicz/customer-favorites/internal/infra/database/repository/customer"
+	"github.com/adrianostankewicz/customer-favorites/internal/infra/web"
 )
 
 func main() {
-	host := os.Getenv("POSTGRES_HOST")
-	user := os.Getenv("POSTGRES_USER")
-	port := os.Getenv("POSTGRES_PORT")
-	password := os.Getenv("POSTGRES_PASSWORD")
-	dbname := os.Getenv("POSTGRES_DB")
+	dbConfig := database.Config{
+		Host:     getEnv("POSTGRES_HOST", "localhost"),
+		Port:     5433,
+		User:     getEnv("POSTGRES_USER", "postgres"),
+		Password: getEnv("POSTGRES_PASSWORD", "postgres"),
+		DBName:   getEnv("POSTGRES_DB", "postgres"),
+		SSLMode:  getEnv("POSTGRES_SSL_MODE", "disable"),
+	}
 
-	dsn := fmt.Sprintf(
-		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
-		user, password, host, port, dbname,
-	)
-
-	db, err := sql.Open("postgres", dsn)
+	db, err := database.NewConnection(dbConfig)
 	if err != nil {
 		panic(err)
 	}
@@ -28,4 +30,24 @@ func main() {
 		message := "Erro ao conectar com o banco de dados: " + err.Error()
 		fmt.Println(message)
 	}
+
+	customerRepository := repository.NewCustomerRepositoryPostgres(db)
+	customerService := service.NewCustomerService(customerRepository)
+
+	webserver := web.NewWebServer(":3000")
+
+	customerHandler := web.NewWebCustomerHandler(*customerService)
+
+	webserver.AddHandler("/customers", customerHandler.CreateCustomer)
+
+	fmt.Println("Server is running")
+	webserver.Start()
+}
+
+func getEnv(key, defaultValue string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return defaultValue
+	}
+	return value
 }
