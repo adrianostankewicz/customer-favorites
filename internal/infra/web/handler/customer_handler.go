@@ -1,4 +1,4 @@
-package web
+package handler
 
 import (
 	"encoding/json"
@@ -17,7 +17,7 @@ func NewWebCustomerHandler(customerService customer.CustomerService) *WebCustome
 	}
 }
 
-func (h *WebCustomerHandler) CreateCustomer(w http.ResponseWriter, r *http.Request) {
+func (h *WebCustomerHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var dto customer.CreateCustomerInputDTO
 	err := json.NewDecoder(r.Body).Decode(&dto)
 	if err != nil {
