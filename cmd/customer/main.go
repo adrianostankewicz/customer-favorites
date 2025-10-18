@@ -35,12 +35,7 @@ func main() {
 	customerService := service.NewCustomerService(customerRepository)
 
 	webserver := web.NewWebServer(":3000")
-
-	customerHandler := web.NewWebCustomerHandler(*customerService)
-
-	webserver.AddHandler("/customers", customerHandler.CreateCustomer)
-
-	fmt.Println("Server is running")
+	webserver.AddHandler(customerService)
 	webserver.Start()
 }
 

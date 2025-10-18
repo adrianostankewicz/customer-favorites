@@ -3,32 +3,42 @@ package web
 import (
 	"net/http"
 
+	customer "github.com/adrianostankewicz/customer-favorites/internal/customer/service"
+	"github.com/adrianostankewicz/customer-favorites/internal/infra/web"
+
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
 )
 
 type WebServer struct {
-	Router        chi.Router
-	Handlers      map[string]http.HandlerFunc
+	Router        *chi.Mux
 	WebServerPort string
 }
 
 func NewWebServer(port string) *WebServer {
 	return &WebServer{
 		Router:        chi.NewRouter(),
-		Handlers:      make(map[string]http.HandlerFunc),
 		WebServerPort: port,
 	}
 }
 
-func (s *WebServer) AddHandler(path string, handler http.HandlerFunc) {
-	s.Handlers[path] = handler
+func (w *WebServer) AddHandler(s *customer.CustomerService) *chi.Mux {
+
+	w.Router.Use(middleware.Logger)
+	w.Router.Use(middleware.Recoverer)
+
+	customerHandler := web.NewWebCustomerHandler(s)
+
+	w.Router.Route("/customers", func(r chi.Router) {
+		r.Post("/", customerHandler.Create)
+		r.Get("/{id}", customerHandler.FindByID)
+		r.Put("/{id}", customerHandler.Update)
+		r.Delete("/{id}", customerHandler.Delete)
+	})
+
+	return w.Router
 }
 
 func (s *WebServer) Start() {
-	s.Router.Use(middleware.Logger)
-	for path, handler := range s.Handlers {
-		s.Router.Post(path, handler)
-	}
 	http.ListenAndServe(s.WebServerPort, s.Router)
 }
