@@ -36,6 +36,11 @@ func (w *WebServer) AddHandler(s *customer.CustomerService) *chi.Mux {
 		//r.Delete("/{id}", customerHandler.Delete)
 	})
 
+	w.Router.Get("/", func(rw http.ResponseWriter, r *http.Request) {
+		rw.WriteHeader(http.StatusOK)
+		rw.Write([]byte("OK"))
+	})
+
 	return w.Router
 }
 

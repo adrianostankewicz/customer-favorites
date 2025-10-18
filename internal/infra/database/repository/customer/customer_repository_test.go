@@ -2,11 +2,13 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
 	"os"
 	"testing"
 
 	customer "github.com/adrianostankewicz/customer-favorites/internal/customer/entity"
 	database "github.com/adrianostankewicz/customer-favorites/internal/infra/database"
+	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -17,8 +19,15 @@ type CustomerRepositoryTestSuite struct {
 }
 
 func (suite *CustomerRepositoryTestSuite) SetupSuite() {
+	err := godotenv.Load("../../../../../.env")
+	if err != nil {
+		fmt.Println("Erro:", err)
+	}
+
+	fmt.Println(getEnv("POSTGRES_PASSWORD", "postgres"))
+
 	dbConfig := database.Config{
-		Host:     getEnv("POSTGRES_HOST", "localhost"),
+		Host:     getEnv("POSTGRES_HOST", "postgres"),
 		Port:     5433,
 		User:     getEnv("POSTGRES_USER", "postgres"),
 		Password: getEnv("POSTGRES_PASSWORD", "postgres"),
@@ -26,7 +35,6 @@ func (suite *CustomerRepositoryTestSuite) SetupSuite() {
 		SSLMode:  getEnv("POSTGRES_SSL_MODE", "disable"),
 	}
 
-	var err error
 	suite.db, err = database.NewConnection(dbConfig)
 	if err != nil {
 		suite.T().Fatalf("Erro ao conectar ao banco de dados: %v", err)
