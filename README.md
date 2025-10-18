@@ -24,3 +24,9 @@ Para inicializar o projeto e suas dependências utilize o comando abaixo:
 ```
 docker compose up -d
 ```
+
+Após iniciar, o app pode ser acessado através da url:
+
+```
+http://localhost:3000
+```
