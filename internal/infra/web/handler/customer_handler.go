@@ -1,4 +1,4 @@
-package handler
+package web
 
 import (
 	"encoding/json"
@@ -8,10 +8,10 @@ import (
 )
 
 type WebCustomerHandler struct {
-	CustomerService customer.CustomerService
+	CustomerService *customer.CustomerService
 }
 
-func NewWebCustomerHandler(customerService customer.CustomerService) *WebCustomerHandler {
+func NewWebCustomerHandler(customerService *customer.CustomerService) *WebCustomerHandler {
 	return &WebCustomerHandler{
 		CustomerService: customerService,
 	}

@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	customer "github.com/adrianostankewicz/customer-favorites/internal/customer/service"
-	"github.com/adrianostankewicz/customer-favorites/internal/infra/web/handler"
+	web "github.com/adrianostankewicz/customer-favorites/internal/infra/web/handler"
 
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
@@ -27,7 +27,7 @@ func (w *WebServer) AddHandler(s *customer.CustomerService) *chi.Mux {
 	w.Router.Use(middleware.Logger)
 	w.Router.Use(middleware.Recoverer)
 
-	customerHandler := handler.NewWebCustomerHandler(s)
+	customerHandler := web.NewWebCustomerHandler(s)
 
 	w.Router.Route("/customers", func(r chi.Router) {
 		r.Post("/", customerHandler.Create)
