@@ -22,7 +22,7 @@ Altere os valores das variáveis de ambiente, conforme desejado.
 Para inicializar o projeto e suas dependências utilize o comando abaixo:
 
 ```
-docker compose up -d
+docker compose up -d --build
 ```
 
 Após iniciar, o app pode ser acessado através da url:

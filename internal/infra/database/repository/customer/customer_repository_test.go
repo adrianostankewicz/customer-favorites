@@ -24,8 +24,6 @@ func (suite *CustomerRepositoryTestSuite) SetupSuite() {
 		fmt.Println("Erro:", err)
 	}
 
-	fmt.Println(getEnv("POSTGRES_PASSWORD", "postgres"))
-
 	dbConfig := database.Config{
 		Host:     getEnv("POSTGRES_HOST", "postgres"),
 		Port:     5433,

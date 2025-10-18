@@ -8,6 +8,8 @@ RUN go mod verify
 
 COPY . .
 
+#RUN go test -v -count=1 ./...
+
 RUN go build -o app ./cmd/customer/main.go
 
 FROM alpine:latest
