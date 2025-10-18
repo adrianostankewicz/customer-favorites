@@ -13,7 +13,7 @@ import (
 func main() {
 	dbConfig := database.Config{
 		Host:     getEnv("POSTGRES_HOST", "localhost"),
-		Port:     5433,
+		Port:     5432,
 		User:     getEnv("POSTGRES_USER", "postgres"),
 		Password: getEnv("POSTGRES_PASSWORD", "postgres"),
 		DBName:   getEnv("POSTGRES_DB", "postgres"),
