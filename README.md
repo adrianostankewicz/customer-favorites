@@ -30,3 +30,7 @@ Após iniciar, o app pode ser acessado através da url:
 ```
 http://localhost:3000
 ```
+
+Dentro do diretório /docs, está uma collection do postman para manipular o cliente.
+
+Obs.: a primeira disponibilizada para testes foi a de criar o cliente (HTTP -> POST). As demais serão implementadas nas próximas features.
