@@ -1,14 +1,28 @@
 # Customer Favorites
 
-Este é um projeto em que o cliente pode criar, listar, atualizar e excluir os seus
-produtos favoritos através de uma API Restfull.
+API REST em Go para gerenciamento de produtos favoritos por cliente.
 
-## Tecnologias
+## Sobre
 
-- Postgresql 17+
-- Golang 1.25+
+Serviço que permite a clientes criar e consultar listas de produtos favoritos. Desenvolvido como exercício de API design em Go com foco em simplicidade e estrutura adequada para escalar.
 
-## Como usar
+## Stack
+
+- Go 1.25+
+- PostgreSQL 17+
+- Docker / Docker Compose
+
+## Estrutura
+
+```
+├── cmd/            # Entry point da aplicação
+├── internal/       # Lógica de negócio e handlers
+├── docs/           # Coleção Postman para testes
+├── Dockerfile
+└── docker-compose.yml
+```
+
+## Como executar
 
 Para executar o projeto é necessário ter o docker instalado.
 
@@ -23,6 +37,7 @@ Para inicializar o projeto e suas dependências utilize o comando abaixo:
 
 ```
 docker compose up -d --build
+go run ./cmd/...
 ```
 
 Após iniciar, o app pode ser acessado através da url:
@@ -31,6 +46,11 @@ Após iniciar, o app pode ser acessado através da url:
 http://localhost:3000
 ```
 
-Dentro do diretório /docs, está uma collection do postman para manipular o cliente.
+## Endpoints
 
-Obs.: a primeira disponibilizada para testes foi a de criar o cliente (HTTP -> POST). As demais serão implementadas nas próximas features.
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/customers` | Criar cliente |
+| POST | `/customers/:id/favorites` | Adicionar produto aos favoritos |
+| GET | `/customers/:id/favorites` | Listar favoritos do cliente |
+| DELETE | `/customers/:id/favorites/:productId` | Remover produto dos favoritos |
